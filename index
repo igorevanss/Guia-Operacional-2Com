@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Operacional N2 — Igor · 2Com Consulting</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap');
+
+:root {
+  --bg: #080b10;
+  --bg2: #0d1118;
+  --bg3: #131a24;
+  --bg4: #1a2333;
+  --border: #1e2d42;
+  --border2: #243347;
+  --text: #cdd9e8;
+  --muted: #5a7494;
+  --accent: #00d4ff;
+  --accent2: #0099bb;
+  --green: #00e676;
+  --orange: #ff9800;
+  --red: #ff4757;
+  --purple: #b388ff;
+  --yellow: #ffd600;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Syne', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  backdrop-filter: blur(12px);
+}
+
+.hdr-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.logo-badge {
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.hdr-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+}
+
+.hdr-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.search-bar {
+  position: relative;
+}
+
+.search-bar input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px 8px 34px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-bar input:focus { border-color: var(--accent); }
+.search-bar input::placeholder { color: var(--muted); }
+.search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+/* ── SCENARIO TABS ── */
+.scenario-bar {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+}
+.scenario-bar::-webkit-scrollbar { display: none; }
+
+.stab {
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.stab:hover { color: var(--text); }
+.stab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── CONTENT ── */
+.content {
+  padding: 1.25rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── STEP CARD ── */
+.step-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.step-card:hover { border-color: var(--border2); }
+.step-card.open { border-color: var(--accent2); }
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: var(--font-display);
+}
+.num-red { background: rgba(255,71,87,0.15); color: var(--red); border: 1px solid rgba(255,71,87,0.3); }
+.num-orange { background: rgba(255,152,0,0.12); color: var(--orange); border: 1px solid rgba(255,152,0,0.3); }
+.num-green { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.3); }
+.num-blue { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); }
+.num-purple { background: rgba(179,136,255,0.12); color: var(--purple); border: 1px solid rgba(179,136,255,0.3); }
+.num-yellow { background: rgba(255,214,0,0.1); color: var(--yellow); border: 1px solid rgba(255,214,0,0.3); }
+
+.step-title {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
+  color: #dde8f5;
+  font-family: var(--font-display);
+}
+
+.step-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.tag-critical { background: rgba(255,71,87,0.15); color: var(--red); }
+.tag-important { background: rgba(255,152,0,0.12); color: var(--orange); }
+.tag-normal { background: rgba(0,212,255,0.1); color: var(--accent); }
+.tag-winthor { background: rgba(179,136,255,0.12); color: var(--purple); }
+
+.chevron {
+  color: var(--muted);
+  font-size: 10px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.step-card.open .chevron { transform: rotate(180deg); }
+
+/* ── STEP BODY ── */
+.step-body {
+  display: none;
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
+}
+.step-card.open .step-body { display: block; }
+
+.step-desc {
+  color: var(--muted);
+  font-size: 11px;
+  padding: 10px 0 8px;
+  line-height: 1.7;
+}
+
+.cmd-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 10px 0 5px;
+}
+
+.code-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: #a8c4d8;
+  overflow-x: auto;
+  position: relative;
+}
+
+.code-block .comment { color: #2d4a62; }
+.code-block .cmd { color: var(--green); }
+.code-block .path { color: var(--accent); }
+.code-block .val { color: var(--yellow); }
+.code-block .warn { color: var(--orange); }
+
+.alert-box {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 0 6px 6px 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.alert-red { background: rgba(255,71,87,0.07); border-left: 3px solid var(--red); color: #e8a0a0; }
+.alert-orange { background: rgba(255,152,0,0.07); border-left: 3px solid var(--orange); color: #e8c880; }
+.alert-blue { background: rgba(0,212,255,0.07); border-left: 3px solid var(--accent); color: #88c8d8; }
+.alert-green { background: rgba(0,230,118,0.07); border-left: 3px solid var(--green); color: #80d8a0; }
+
+.checklist {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.chk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+.chk-item:hover { background: var(--bg3); }
+.chk-box {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.15s;
+  font-size: 9px;
+}
+.chk-item.checked .chk-box {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--bg);
+}
+.chk-item.checked .chk-text { text-decoration: line-through; color: var(--muted); }
+
+/* ── EMPTY ── */
+.empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ── SCROLL TOP ── */
+#scrolltop {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 36px;
+  height: 36px;
+  background: var(--accent2);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--bg);
+  z-index: 300;
+  border: none;
+}
+#scrolltop.show { display: flex; }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.progress-label { font-size: 10px; color: var(--muted); flex: 1; }
+.progress-track {
+  width: 120px;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.progress-pct {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--green);
+  min-width: 30px;
+  text-align: right;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-top">
+    <div class="logo-badge">N2</div>
+    <div>
+      <div class="hdr-title">Guia Operacional Igor</div>
+      <div class="hdr-sub">2Com Consulting · Analista de Infraestrutura Nível 2</div>
+    </div>
+  </div>
+  <div class="search-bar">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="search" placeholder="Buscar procedimento, comando, situação..." oninput="renderAll()">
+  </div>
+</header>
+
+<div class="scenario-bar" id="stabs"></div>
+<div class="content" id="content"></div>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const SCENARIOS = {
+  assumir: {
+    label: "📥 Assumir Servidor",
+    desc: "Contrato para Administração — servidor já em produção",
+    sections: [
+      {
+        label: "🚨 Segurança — Remover Acessos Externos",
+        steps: [
+          {
+            num: "01", numClass: "num-red",
+            title: "Remover VPNs de terceiros",
+            tag: "CRÍTICO", tagClass: "tag-critical",
+            desc: "Qualquer acesso VPN de empresa anterior deve ser revogado imediatamente. Verifique configs OpenVPN e arquivos .conf ativos.",
+            cmds: `# Listar configs OpenVPN ativas
+ls /etc/openvpn/
+systemctl list-units | grep openvpn
+
+# Desabilitar e parar VPNs de terceiros
+systemctl stop openvpn@<nome_config>
+systemctl disable openvpn@<nome_config>
+
+# Mover ou deletar configs antigas
+mv /etc/openvpn/cliente_anterior.conf /db/backup/vpn_anterior.conf.bkp`,
+            alert: { type: "alert-red", text: "⚠️ NÃO delete antes de fazer backup. Pode ser necessário reverter se algo quebrar." }
+          },
+          {
+            num: "02", numClass: "num-red",
+            title: "Remover chaves SSH de terceiros",
+            tag: "CRÍTICO", tagClass: "tag-critical",
+            desc: "Verificar authorized_keys de todos os usuários relevantes (root, oracle, admwinthor).",
+            cmds: `# Verificar chaves SSH autorizadas
+cat /root/.ssh/authorized_keys
+cat /home/oracle/.ssh/authorized_keys
+
+# Editar e remover chaves de terceiros
+vim /root/.ssh/authorized_keys
+# Deixar APENAS as chaves da 2Com
+
+# Verificar permissões corretas
+chmod 700 /root/.ssh
+chmod 600 /root/.ssh/authorized_keys`,
+            alert: { type: "alert-orange", text: "Peça ao Wilson ou Felipe as chaves SSH da 2Com antes de remover as antigas." }
+          },
+          {
+            num: "03", numClass: "num-red",
+            title: "Remover usuários de terceiros",
+            tag: "CRÍTICO", tagClass: "tag-critical",
+            desc: "Listar todos os usuários com shell ativo e remover os que não pertencem à 2Com ou ao cliente.",
+            cmds: `# Listar usuários com shell ativo
+cat /etc/passwd | grep -v nologin | grep -v false
+
+# Ver últimos logins
+last | head -20
+lastlog | grep -v "Never"
+
+# Remover usuário de terceiro
+userdel -r nome_usuario
+# -r remove também o home directory`,
+            alert: { type: "alert-orange", text: "Documente os usuários encontrados antes de remover — registre no ticket." }
+          },
+          {
+            num: "04", numClass: "num-orange",
+            title: "Remover aplicações de terceiros",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "Agentes de monitoramento, scripts, crons e aplicações instaladas por empresa anterior.",
+            cmds: `# Ver pacotes instalados recentemente
+rpm -qa --last | head -20
+
+# Ver processos rodando fora do padrão
+ps aux | grep -v "oracle\|root\|system\|samba\|openvpn"
+
+# Ver crontab de todos usuários
+crontab -l
+crontab -l -u oracle
+ls /etc/cron.d/
+ls /var/spool/cron/`,
+            alert: { type: "alert-blue", text: "Qualquer coisa suspeita: documente, consulte o Wilson ANTES de remover." }
+          }
+        ]
+      },
+      {
+        label: "🔍 Auditoria e Diagnóstico Inicial",
+        steps: [
+          {
+            num: "05", numClass: "num-blue",
+            title: "Verificar hardware e saúde do servidor",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "Avaliar processador, memória, discos e se o servidor tem console remota (iDRAC/iLO/xClarity).",
+            cmds: `# CPU e memória
+lscpu
+free -h
+cat /proc/meminfo | grep MemTotal
+
+# Discos e partições
+lsblk -f
+df -h
+fdisk -l
+
+# Hardware completo
+lshw -short 2>/dev/null || dmidecode -t system
+
+# Temperatura e saúde (se IPMI disponível)
+ipmitool sdr type Temperature
+ipmitool sdr type Fan`,
+            alert: { type: "alert-blue", text: "Registre tudo: modelo do servidor, RAM total, discos, versão do Oracle Linux. Vai no ticket e na documentação." }
+          },
+          {
+            num: "06", numClass: "num-blue",
+            title: "Configurar Console Remota (iDRAC/iLO)",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Sempre que possível, configurar acesso à console remota Dell (iDRAC) ou HP (iLO). É o acesso de emergência quando a rede cai.",
+            cmds: `# Ver se iDRAC está acessível
+ping idrac_ip_do_servidor
+
+# Configurar SNMP via shell
+# Ver artigo: Configurar SNMP iDrac via shell no Movidesk
+
+# Acessar iDRAC via navegador:
+# https://IP_DO_IDRAC
+# Usuário padrão: root
+# Senha padrão: (ver Vault)`,
+            alert: { type: "alert-green", text: "iDRAC configurado = você consegue ver a tela do servidor mesmo sem rede. Essencial em emergências P1." }
+          },
+          {
+            num: "07", numClass: "num-blue",
+            title: "Auditar Samba e compartilhamentos (WinThor)",
+            tag: "WINTHOR", tagClass: "tag-winthor",
+            desc: "Para clientes WinThor, validar as 3 paths do samba e o mapeamento do P: nas máquinas cliente.",
+            cmds: `# Status do Samba
+systemctl status smb nmb
+
+# Ver compartilhamentos ativos
+smbstatus
+testparm
+
+# Verificar config atual
+cat /etc/samba/smb.conf
+
+# Testar acesso ao compartilhamento
+smbclient -L localhost -U admwinthor
+
+# Verificar permissões do /sistema
+ls -la /sistema/
+stat /sistema/`,
+            alert: { type: "alert-orange", text: "As 3 paths: [winthor]=leitura para usuários, [adm]=escrita para TI, [ccw]=escrita para agente de atualização. Verifique se estão todas." }
+          },
+          {
+            num: "08", numClass: "num-blue",
+            title: "Verificar VPN e inserir na rede 2Com",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "Verificar o VPN-INVENTARIO e selecionar IP disponível para o cliente. Configurar OpenVPN do servidor para entrar na VPN da 2Com.",
+            cmds: `# Ver VPNs OpenVPN configuradas
+ls /etc/openvpn/
+systemctl status openvpn@*
+
+# Verificar conectividade VPN
+ip addr show tun0
+ping -c 3 10.x.x.x  # IP do Monitorium
+
+# Estrutura de arquivos VPN padrão
+/etc/openvpn/keys/ca.crt
+/etc/openvpn/keys/clienteXX.crt
+/etc/openvpn/keys/clienteXX.key
+/etc/openvpn/clienteXX.conf`,
+            alert: { type: "alert-blue", text: "O IP da VPN deve ser consultado no VPN-INVENTARIO antes de configurar. Cada cliente tem um IP específico." }
+          }
+        ]
+      },
+      {
+        label: "📋 Padronização e Documentação",
+        steps: [
+          {
+            num: "09", numClass: "num-green",
+            title: "Aplicar banner 2Com (Figlet)",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Todo servidor na base 2Com deve ter o banner com nome do cliente no /etc/motd.",
+            cmds: `# Verificar se já tem banner
+cat /etc/motd
+
+# Aplicar banner padrão
+figlet <NOME_DO_CLIENTE> >> /etc/motd
+echo "2Com Consulting©" >> /etc/motd
+
+# Verificar resultado
+cat /etc/motd`,
+            alert: { type: "alert-green", text: "Se o servidor já tem o banner 2Com, ele foi implantado pela 2Com. Se não tem, era de outra empresa." }
+          },
+          {
+            num: "10", numClass: "num-green",
+            title: "Criar documentação do cliente",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Salvar documentação na pasta padrão do OwnCloud.",
+            cmds: `# Caminho padrão no OwnCloud:
+# ownCloud/Documentacao_Clientes/01Templates
+# → copiar template
+# → salvar em:
+# ownCloud/Documentacao_Clientes/Pasta_Nome_do_Cliente/
+
+# O que documentar:
+# - IP do servidor
+# - IP da VPN
+# - Versão Oracle Linux
+# - Versão Oracle DB
+# - Hostname
+# - Compartilhamentos Samba
+# - Usuários criados
+# - Console remota (iDRAC/iLO) — IP e credenciais no Vault`,
+            alert: { type: "alert-blue", text: "Documentação é o que diferencia N2 de N3. Todo atendimento deve gerar ou atualizar um doc." }
+          }
+        ]
+      }
+    ]
+  },
+
+  deploy: {
+    label: "🚀 Deploy Novo Servidor",
+    desc: "Implantação — Oracle Linux do zero para receber banco Oracle",
+    sections: [
+      {
+        label: "⚙️ Instalação do Sistema Operacional",
+        steps: [
+          {
+            num: "01", numClass: "num-blue",
+            title: "Instalar Oracle Linux 7 — Roteiro Padrão",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Seguir o roteiro de instalação exatamente. A senha root padrão é summer01.",
+            checklist: [
+              "Idioma: Português (Brasil) → Continuar",
+              "DESTINO INSTALAÇÃO → disco principal → Configurar automaticamente → Finalizado",
+              "REDE & NOME DO HOST → selecionar interface conectada → Configurar",
+              "Aba Geral → marcar 'Conectar automaticamente quando disponível'",
+              "Aba Configurações → Manual → IP / Máscara / Gateway / DNS → Salvar",
+              "Nome do host: servidor → Aplicar → Finalizado",
+              "Iniciar Instalação",
+              "Senha root: summer01 → Finalizado 2x",
+              "Reiniciar"
+            ]
+          },
+          {
+            num: "02", numClass: "num-orange",
+            title: "Particionamento — Entender os dois cenários",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "O DBA vai informar no ticket qual cenário usar. NUNCA decida sozinho.",
+            cmds: `# CENÁRIO 1: Ambiente Filesystem (padrão)
+# Todo espaço do disco em / via LVM
+# SWAP = mesma qtd de RAM (máx 16GB)
+
+# CENÁRIO 2: Ambiente +ASM (Oracle de alto desempenho)
+# Volume de 80GB para / em LVM
+# Volume separado para /u01 (software do banco)
+# Discos adicionais em Raw Device para +ASM
+# Tipo: "Linux Filesystem" nos discos +ASM
+
+# Ver partições após instalação:
+lsblk -f
+df -h`,
+            alert: { type: "alert-orange", text: "O tipo de particionamento SEMPRE vem no ticket do DBA. Se não tiver, pergunte antes de avançar." }
+          }
+        ]
+      },
+      {
+        label: "🔧 Hardening e Configuração",
+        steps: [
+          {
+            num: "03", numClass: "num-orange",
+            title: "Desabilitar SELinux, Firewall e NetworkManager",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "Oracle DB não funciona com SELinux enforcing. NetworkManager conflita com configs estáticas.",
+            cmds: `# Desabilitar SELinux permanentemente
+sed -i -e 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+setenforce 0
+
+# Confirmar:
+cat /etc/selinux/config | grep SELINUX=
+
+# Desabilitar Firewall e NetworkManager
+systemctl disable firewalld && systemctl stop firewalld
+systemctl stop NetworkManager && systemctl disable NetworkManager`,
+            alert: { type: "alert-red", text: "setenforce 0 = desabilita na sessão atual. A linha no /etc/selinux/config = desabilita permanentemente. AMBOS são necessários." }
+          },
+          {
+            num: "04", numClass: "num-blue",
+            title: "Desabilitar IPv6 e configurar SSHD",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Desabilitar IPv6 via sysctl e otimizar SSHD para conexões mais rápidas.",
+            cmds: `# Desabilitar IPv6
+echo net.ipv6.conf.all.disable_ipv6=1 >> /etc/sysctl.conf
+sysctl -p
+# Confirmar: deve aparecer = 1
+
+# Configurar SSHD (conexão mais rápida)
+sed -i -e 's/#GSSAPIAuthentication no/GSSAPIAuthentication no/' \
+       -e 's/GSSAPIAuthentication yes/#GSSAPIAuthentication yes/' \
+       -e 's/#UseDNS yes/UseDNS no/' \
+       /etc/ssh/sshd_config
+systemctl restart sshd`
+          },
+          {
+            num: "05", numClass: "num-orange",
+            title: "Instalar pacotes — 3 grupos",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "Primeiro o repositório EPEL, depois sistema, depois os essenciais (incluindo as libs de compatibilidade do Oracle).",
+            cmds: `# 1. Repositório EPEL
+yum clean all
+yum install oracle-epel-release-el7.x86_64 -y
+/usr/bin/ol_yum_configure.sh
+
+# 2. Pacotes de sistema
+yum install -y openvpn wget net-tools vim tmux glances nload nc
+
+# 3. Pacotes essenciais (incluindo libs Oracle)
+yum install -y xterm tiger* xorg-x11-fonts* wmctrl.x86_64 iptraf lshw \\
+ntpdate samba4 samba4-client xhost elfutils-libelf-devel \\
+net-tools openvpn tmux vim wget figlet git mlocate iotop ncdu
+
+# 4. Libs de compatibilidade Oracle
+yum install -y binutils.x86_64 compat-db47.x86_64 compat-glibc-headers \\
+gcc-c++.x86_64 gcc.x86_64 glibc-devel.x86_64 libaio-devel.x86_64 \\
+libstdc++-devel.x86_64 unixODBC-devel.x86_64 nfs-utils portmap sysstat.x86_64
+
+# 5. Pacote preinstall Oracle (escolher versão)
+yum install oracle-database-preinstall-19c -y  # versão 19
+# yum install oracle-rdbms-server-12cR2-preinstall.x86_64 -y  # versão 12`,
+            alert: { type: "alert-blue", text: "Se algum yum install falhar por dependência, use: yum install --skip-broken. Anote o erro no ticket." }
+          }
+        ]
+      },
+      {
+        label: "📁 Estrutura de Diretórios e Oracle",
+        steps: [
+          {
+            num: "06", numClass: "num-blue",
+            title: "Configurar /etc/hosts",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Adicionar hostname e hostname-std do servidor.",
+            cmds: `# Editar /etc/hosts
+vim /etc/hosts
+
+# Adicionar as linhas (substituir com IP e nome reais):
+# <IP> nome_servidor nome_servidor
+# <IP> nome_servidor-std nome_servidor-std
+
+# Exemplo:
+echo "192.168.1.103 wtserver wtserver" >> /etc/hosts
+echo "192.168.1.103 wtserver-std wtserver-std" >> /etc/hosts`
+          },
+          {
+            num: "07", numClass: "num-orange",
+            title: "Configurar .bash_profile do usuário oracle",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "Configurar variáveis de ambiente do Oracle. PATH diferente para cada versão (11, 12 ou 19).",
+            cmds: `# Mudar para usuário oracle
+su - oracle
+vim .bash_profile
+
+# ── PATH Oracle 19 (mais comum hoje) ──
+# Oracle Settings
+TMP=/tmp; export TMP
+TMPDIR=$TMP; export TMPDIR
+ORACLE_HOSTNAME=wtserver-mrofe; export ORACLE_HOSTNAME
+ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
+ORACLE_HOME=$ORACLE_BASE/product/19.0.0.0/dbhome_1; export ORACLE_HOME
+ORACLE_SID=WINT; export ORACLE_SID
+ORACLE_TERM=xterm; export ORACLE_TERM
+PATH=/usr/sbin:$PATH; export PATH
+PATH=$ORACLE_HOME/bin:$PATH:/u01/app/oracle/product/19/dbhome_1/OPatch; export PATH
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH
+
+alias tlf='tail -f /u01/app/oracle/diag/rdbms/wint/WINT/trace/alert_WINT.log'`,
+            alert: { type: "alert-orange", text: "O ORACLE_SID vem do ticket do DBA. Nunca invente — pergunte se não estiver claro." }
+          },
+          {
+            num: "08", numClass: "num-blue",
+            title: "Criar estrutura de diretórios e permissões",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Criar a estrutura /db/backup e /u01 com as permissões corretas para o usuário oracle.",
+            cmds: `cd /
+
+# Estrutura de backup
+mkdir -p /db/backup
+cd /db/backup
+mkdir checklist backup_old fisico scripts
+cd fisico
+mkdir back_db control spfile
+cd /
+
+# Diretório de instalação do Oracle
+mkdir /u01
+
+# Diretório de mounts de backup
+cd /mnt
+mkdir backup backup_check backup_rman
+
+# Permissões
+chown oracle:oinstall /db -R
+chmod 775 /db -R
+chown oracle:oinstall /u01 -R
+chmod 775 /u01 -R
+
+# Atualizar SO
+yum -y update`
+          }
+        ]
+      },
+      {
+        label: "🗂️ Samba, VPN e Finalização",
+        steps: [
+          {
+            num: "09", numClass: "num-purple",
+            title: "Configurar Samba (somente clientes WinThor)",
+            tag: "WINTHOR", tagClass: "tag-winthor",
+            desc: "Criar usuário admwinthor, grupo winthor, diretório /sistema e as 3 paths do smb.conf.",
+            cmds: `# Criar usuário e grupo
+adduser admwinthor
+passwd admwinthor    # senha padrão: admwint
+smbpasswd -a admwinthor
+smbpasswd -e admwinthor
+groupadd winthor
+gpasswd -a admwinthor winthor
+
+# Usuário nobody no samba
+smbpasswd -a nobody
+smbpasswd -e nobody
+smbpasswd -n nobody
+
+# Criar diretório /sistema
+mkdir /sistema
+chown admwinthor:winthor /sistema -R
+chmod 775 /sistema -R
+
+# Backup do smb.conf original
+cd /etc/samba/
+mv smb.conf smb.conf.bkp
+vim smb.conf
+# Colar template padrão 2Com (ver doc 04 completo)
+
+# Iniciar e habilitar
+systemctl start smb && systemctl enable smb
+systemctl start nmb && systemctl enable nmb`,
+            alert: { type: "alert-purple", text: "3 paths: [winthor]=somente leitura usuários, [adm]=leitura/escrita TI, [ccw]=escrita para agente CCW (IP específico no hosts allow)." }
+          },
+          {
+            num: "10", numClass: "num-blue",
+            title: "Configurar VPN OpenVPN do servidor",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Inserir servidor na VPN da 2Com. Consultar VPN-INVENTARIO para escolher IP disponível.",
+            cmds: `# Criar diretório de chaves
+mkdir -p /etc/openvpn/keys
+
+# Copiar arquivos de VPN para o servidor
+# (recebidos via ticket ou OwnCloud)
+mv ca.crt clienteXX.crt clienteXX.key /etc/openvpn/keys
+mv clienteXX.conf /etc/openvpn
+
+# Editar o .conf
+cd /etc/openvpn
+vim clienteXX.conf
+# → ajustar IP e caminhos dos .crt e .key
+
+# Permissões
+chmod -R 644 /etc/openvpn
+
+# Iniciar e habilitar
+systemctl start openvpn@clienteXX
+systemctl enable openvpn@clienteXX
+
+# Verificar
+ip addr show tun0`
+          },
+          {
+            num: "11", numClass: "num-green",
+            title: "Banner Figlet + Redimensionamento de Discos",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Finalizar com o banner de identidade e, se necessário, redimensionar LVMs.",
+            cmds: `# Banner de identidade
+figlet <NOME_CLIENTE> >> /etc/motd
+echo "2Com Consulting©" >> /etc/motd
+cat /etc/motd  # validar
+
+# ── Redimensionar / (se necessário) ──
+df -h
+# Se precisar adicionar espaço ao / com novo disco:
+pvcreate /dev/sdb
+vgcreate db /dev/sdb
+lvcreate -l +100%FREE -n u01 db
+mkfs.xfs /dev/mapper/db-u01
+mount /dev/mapper/db-u01 /u01/
+
+# Persistir no fstab:
+vim /etc/fstab
+# adicionar: /dev/mapper/db-u01 /u01/ xfs defaults 0 0`,
+            alert: { type: "alert-green", text: "Após finalizar, avise o DBA que o servidor está pronto. Ele vai validar antes de instalar o Oracle." }
+          }
+        ]
+      }
+    ]
+  },
+
+  pfsense: {
+    label: "🔥 pfSense — Atendimento",
+    desc: "Procedimentos mais frequentes no dia a dia (90% dos chamados)",
+    sections: [
+      {
+        label: "🔑 VPN",
+        steps: [
+          {
+            num: "01", numClass: "num-orange",
+            title: "Criar OpenVPN Remote Access (usuário remoto)",
+            tag: "FREQUENTE", tagClass: "tag-important",
+            desc: "Tipo mais comum de chamado. Cliente quer acesso VPN para trabalhar de casa.",
+            checklist: [
+              "VPN > OpenVPN > Wizards → usar wizard",
+              "Protocol: UDP on IPv4 / Interface: WAN / Port: 1194",
+              "TLS Authentication: Yes",
+              "Criar CA e certificado do servidor se não existir",
+              "Tunnel Network: 10.8.0.0/24 (rede dos clientes VPN)",
+              "Local Network: rede LAN do cliente (ex: 192.168.1.0/24)",
+              "Concurrent Connections: 50",
+              "Exportar perfil: System > Package Manager > openvpn-client-export",
+              "Testar conexão com o perfil exportado"
+            ],
+            alert: { type: "alert-blue", text: "Sempre teste a VPN antes de fechar o chamado. Peça para o cliente conectar e pingar um IP interno." }
+          },
+          {
+            num: "02", numClass: "num-orange",
+            title: "Criar IPsec Site-to-Site (entre unidades)",
+            tag: "FREQUENTE", tagClass: "tag-important",
+            desc: "Quando o cliente tem filial ou outra empresa que precisa se comunicar com a rede principal.",
+            cmds: `# VPN > IPsec > Add P1 (Fase 1 — autenticação)
+Key Exchange: IKEv2
+Auth Method: Mutual PSK
+Pre-Shared Key: (chave forte, mín 32 chars)
+Encryption: AES 256
+Hash: SHA256
+DH Group: 14 (2048 bit)
+
+# Add P2 (Fase 2 — túnel de dados)
+Protocol: ESP
+Encryption: AES 256
+Hash: SHA256
+Local Network: rede local (ex: 192.168.1.0/24)
+Remote Network: rede remota (ex: 10.0.0.0/24)`,
+            alert: { type: "alert-red", text: "⚠️ Fase 1 e Fase 2 DEVEM ser idênticas nos dois lados. 90% das falhas são por configuração diferente entre os peers." }
+          },
+          {
+            num: "03", numClass: "num-blue",
+            title: "Troubleshooting de VPN caída",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "VPN que para de funcionar sem motivo aparente.",
+            checklist: [
+              "VPN > IPsec > Status — checar se túnel está verde ou vermelho",
+              "Status > System Logs > VPN — ler os erros",
+              "Diagnostics > Ping — pingar IP do lado remoto via interface da VPN",
+              "Verificar se PSK está igual nos dois lados",
+              "Verificar se Fase 1 e Fase 2 têm configs idênticas",
+              "Verificar se UDP 500 e 4500 estão liberados no firewall",
+              "Verificar se rota para rede remota existe",
+              "Tentar fazer Force Reconnect no status da VPN"
+            ],
+            alert: { type: "alert-orange", text: "Se o cliente tem pfSense nos dois lados e você só administra um, peça acesso ou informações do outro lado ao cliente." }
+          }
+        ]
+      },
+      {
+        label: "🛡️ Regras de Firewall",
+        steps: [
+          {
+            num: "04", numClass: "num-blue",
+            title: "Liberar porta / serviço para acesso externo",
+            tag: "MUITO FREQUENTE", tagClass: "tag-normal",
+            desc: "Cliente quer acesso a sistema interno pela internet. Ex: câmera, RDP, ERP.",
+            checklist: [
+              "Firewall > NAT > Port Forward > Add",
+              "Interface: WAN",
+              "Protocol: TCP (ou UDP se necessário)",
+              "Destination: WAN address",
+              "Destination port: porta externa (ex: 8443)",
+              "Redirect target IP: IP do servidor interno",
+              "Redirect target port: porta interna (ex: 443)",
+              "Description: descrição clara do que é",
+              "Salvar → Apply Changes",
+              "pfSense cria regra de firewall automaticamente",
+              "Testar acesso externo"
+            ],
+            alert: { type: "alert-blue", text: "Sempre documente: qual porta, qual servidor, qual serviço. Em 6 meses você não vai lembrar." }
+          },
+          {
+            num: "05", numClass: "num-blue",
+            title: "Criar regra de liberação na LAN",
+            tag: "FREQUENTE", tagClass: "tag-normal",
+            desc: "Liberar acesso a site ou serviço que estava bloqueado.",
+            checklist: [
+              "Firewall > Rules > LAN > Add (seta para cima = adiciona no topo)",
+              "Action: Pass",
+              "Interface: LAN",
+              "Address Family: IPv4",
+              "Protocol: TCP (ou Any)",
+              "Source: LAN net (ou IP específico)",
+              "Destination: any (ou IP/porta específica)",
+              "Description: obrigatório, seja específico",
+              "Salvar → Apply Changes"
+            ],
+            alert: { type: "alert-orange", text: "Regras são avaliadas de cima para baixo. A primeira que casar é aplicada. Coloque liberações acima dos bloqueios gerais." }
+          },
+          {
+            num: "06", numClass: "num-blue",
+            title: "Bloquear acesso de usuário / IP",
+            tag: "FREQUENTE", tagClass: "tag-normal",
+            desc: "Bloquear um usuário ou IP específico de acessar a internet ou serviço.",
+            checklist: [
+              "Firewall > Rules > LAN > Add",
+              "Action: Block",
+              "Source: IP do usuário (ex: 192.168.1.100)",
+              "Destination: any",
+              "Description: motivo do bloqueio",
+              "Posicionar a regra ACIMA das regras de liberação",
+              "Salvar → Apply Changes",
+              "Testar: na máquina do usuário, testar acesso bloqueado"
+            ]
+          }
+        ]
+      },
+      {
+        label: "🔍 Diagnóstico e Logs",
+        steps: [
+          {
+            num: "07", numClass: "num-green",
+            title: "Verificar por que serviço não está acessível",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Serviço que deveria estar acessível mas não está — sequência de diagnóstico.",
+            checklist: [
+              "Status > System Logs > Firewall — verificar se pacotes estão sendo bloqueados",
+              "Filtrar pelo IP do cliente ou pela porta",
+              "Diagnostics > Ping — pingar o servidor de destino pelo pfSense",
+              "Diagnostics > Port Test — testar se porta específica está aberta",
+              "Verificar se regra NAT existe (Firewall > NAT > Port Forward)",
+              "Verificar se há regra de bloqueio acima da de liberação",
+              "Verificar se serviço no servidor de destino está rodando"
+            ],
+            alert: { type: "alert-green", text: "Packet Capture (Diagnostics) é o tcpdump do pfSense. Use quando os logs não forem suficientes." }
+          },
+          {
+            num: "08", numClass: "num-green",
+            title: "Procedimento de backup antes de qualquer mudança",
+            tag: "CRÍTICO", tagClass: "tag-critical",
+            desc: "Regra sem exceção: backup antes de qualquer alteração em produção.",
+            checklist: [
+              "Diagnostics > Backup & Restore",
+              "Download configuration as XML",
+              "Salvar com nome: backup_CLIENTE_DATA.xml",
+              "Guardar cópia local e no OwnCloud do cliente",
+              "SÓ ENTÃO fazer a alteração solicitada",
+              "Após alteração: testar e documentar no ticket"
+            ],
+            alert: { type: "alert-red", text: "⚠️ Nunca pule o backup. Se algo der errado e não tiver backup, você vai ter que reconfigurar tudo do zero." }
+          }
+        ]
+      }
+    ]
+  },
+
+  chamado: {
+    label: "📞 Fluxo de Atendimento",
+    desc: "Como conduzir um chamado do início ao fim",
+    sections: [
+      {
+        label: "📋 Processo Padrão",
+        steps: [
+          {
+            num: "01", numClass: "num-blue",
+            title: "Receber e entender o chamado",
+            tag: "SEMPRE", tagClass: "tag-normal",
+            desc: "Antes de agir, entenda o que realmente está sendo pedido.",
+            checklist: [
+              "Ler o ticket completo — não só o título",
+              "Identificar o tipo: implantação / administração / migração / avulso",
+              "Identificar o produto: Oracle Linux + Oracle DB / pfSense / Windows / outro",
+              "Verificar se é infra (minha alçada) ou aplicação (suporte TOTVS/outro)",
+              "Se for WinThor e o erro é no sistema = não é sua alçada, é suporte TOTVS",
+              "Se for dúvida: perguntar ao Felipe ou Wilson ANTES de agir"
+            ],
+            alert: { type: "alert-orange", text: "Regra de ouro: 'Isso é infra ou é aplicação?' Se for do sistema, não é seu. Comunique ao cliente e redirecione." }
+          },
+          {
+            num: "02", numClass: "num-blue",
+            title: "Escalar ou agir — quando e como",
+            tag: "IMPORTANTE", tagClass: "tag-important",
+            desc: "Saber quando resolver sozinho, quando pedir ajuda e quando escalar.",
+            checklist: [
+              "Chamado simples (porta, VPN, disco, usuário) → resolver direto",
+              "Chamado complexo ou desconhecido → chamar Wilson no Discord",
+              "Compartilhar tela → juntos resolvem e você aprende",
+              "Se perto das 18h sem resolver → passar para analista de plantão via Discord",
+              "Resumir o chamado: o que é, o que já foi feito, o que falta",
+              "Ticket sempre atualizado com tudo que foi feito"
+            ]
+          },
+          {
+            num: "03", numClass: "num-green",
+            title: "Fechar o chamado corretamente",
+            tag: "NORMAL", tagClass: "tag-normal",
+            desc: "Um chamado bem fechado é tão importante quanto resolvê-lo.",
+            checklist: [
+              "Registrar no ticket tudo que foi feito (comandos, mudanças, resultados)",
+              "Confirmar com o cliente que o problema foi resolvido",
+              "Atualizar documentação no OwnCloud se algo mudou",
+              "Se foi mudança no pfSense: registrar qual regra foi criada/alterada",
+              "Se foi servidor: verificar se VPN está online após mudanças",
+              "Fechar o ticket no Movidesk com status correto"
+            ],
+            alert: { type: "alert-green", text: "Documentar bem é o que vai te salvar quando você pegar o mesmo chamado 6 meses depois e não lembrar o que fez." }
+          }
+        ]
+      },
+      {
+        label: "🛠️ Ferramentas Essenciais",
+        steps: [
+          {
+            num: "04", numClass: "num-blue",
+            title: "Kit de ferramentas do dia a dia",
+            tag: "REFERÊNCIA", tagClass: "tag-normal",
+            desc: "O que você precisa ter instalado e acessível sempre.",
+            cmds: `# Acesso remoto e gerenciamento
+MRemote        → criar hosts para acessar servidores
+VNC Viewer     → console remota visual
+WinSCP         → transferência de arquivos Windows/Linux
+AnyDesk        → acesso remoto ao cliente (se não tiver VPN)
+
+# Senhas e credenciais
+VaultWarden    → https://vault.2comconsulting.com.br
+                 → credenciais padrão ficam aqui
+
+# Armazenamento e documentação
+OwnCloud       → https://cloud.2comconsulting.com.br
+                 → documentação de clientes
+
+# Tickets
+Movidesk       → https://suporte.2comconsulting.com.br
+                 → todos os chamados
+
+# Comunicação interna
+Discord        → reuniões e chamados complexos (sala Infra)
+WhatsApp Biz   → comunicação geral (grupo 2Com - Infra)`,
+            alert: { type: "alert-blue", text: "Monitorium = servidor que centraliza as VPNs dos clientes. Você acessa de lá os servidores de todos os clientes." }
+          },
+          {
+            num: "05", numClass: "num-green",
+            title: "Diagnóstico de servidor lento / alto consumo",
+            tag: "FREQUENTE", tagClass: "tag-normal",
+            desc: "Sequência de diagnóstico quando cliente reclama que servidor está lento.",
+            cmds: `# 1. Ver uso de CPU e memória em tempo real
+htop
+# ou:
+top -bn1 | head -20
+
+# 2. Ver processos consumindo mais CPU
+ps aux --sort=-%cpu | head -10
+
+# 3. Ver uso de disco
+df -h
+du -sh /var/log/* | sort -rh | head -10
+
+# 4. Ver I/O de disco
+iostat -x 2 5
+iotop
+
+# 5. Ver memória e swap
+free -h
+vmstat 1 5
+
+# 6. Ver logs de erros recentes
+journalctl -p err --since '1 hour ago'
+tail -100 /var/log/messages`,
+            alert: { type: "alert-blue", text: "Sempre que servidor estiver lento, verifique disco ANTES de CPU/RAM. Disco cheio derruba serviços silenciosamente." }
+          }
+        ]
+      }
+    ]
+  },
+
+  lab: {
+    label: "🧪 Laboratório",
+    desc: "Checklist de execução dos laboratórios 04 e 06",
+    sections: [
+      {
+        label: "✅ Lab 04 — Servidor Oracle Linux",
+        steps: [
+          {
+            num: "✓", numClass: "num-green",
+            title: "Checklist completo — Lab 04",
+            tag: "LAB", tagClass: "tag-normal",
+            desc: "Marque cada etapa conforme for executando.",
+            checklist: [
+              "VM criada no VMware Workstation",
+              "ISO Oracle Linux 7.9 baixada e montada",
+              "Etapa 1: SO instalado (idioma, rede, hostname, senha root: summer01)",
+              "Etapa 2: Particionamento revisado (filesystem ou +ASM)",
+              "Etapa 3: SELinux, Firewall e NetworkManager desabilitados",
+              "Etapa 4: IPv6 desabilitado via sysctl",
+              "Etapa 5: SSHD configurado (GSSAPIAuthentication, UseDNS)",
+              "Etapa 6: Repositório EPEL instalado",
+              "Etapa 7: Pacotes de sistema instalados",
+              "Etapa 8: Pacotes essenciais instalados",
+              "Etapa 9: Pacotes complementares Oracle instalados",
+              "Etapa 10: Oracle preinstall instalado (versão 19)",
+              "Etapa 11: /etc/hosts configurado",
+              "Etapa 12: .bash_profile oracle configurado (PATH Oracle 19)",
+              "Etapa 13: Estrutura /db/backup criada",
+              "Etapa 14: /u01 criado com permissões oracle:oinstall",
+              "Etapa 15: /mnt/backup /mnt/backup_check /mnt/backup_rman criados",
+              "Etapa 16: yum -y update executado",
+              "Etapa 17 (WinThor): Samba configurado com 3 paths",
+              "Etapa 18: VPN OpenVPN configurada",
+              "Etapa 19: Banner Figlet + 2Com Consulting no /etc/motd",
+              "Etapa 20: Discos extras adicionados à VM (5GB e 8GB)",
+              "Etapa 21: / estendido com disco de 5GB via LVM",
+              "Etapa 22: /u01 criado com disco de 8GB via LVM"
+            ]
+          }
+        ]
+      },
+      {
+        label: "✅ Lab 06 — pfSense",
+        steps: [
+          {
+            num: "✓", numClass: "num-orange",
+            title: "Checklist completo — Lab 06",
+            tag: "LAB", tagClass: "tag-important",
+            desc: "Dois ambientes paralelos (A e B). Execute cada etapa nos dois.",
+            checklist: [
+              "VMs criadas: 2x pfSense 2.7.2 + 2x Linux (Ambientes A e B)",
+              "VMs Linux conectadas à rede LAN dos respectivos pfSense",
+              "Acesso WebGUI funcionando nos dois pfSense",
+              "Configuração inicial: IP, senha admin, timezone",
+              "Pacotes instalados: arping, Cron, FTP_Client_Proxy, Lightsquid",
+              "Pacotes instalados: nmap, openvpn-client-export, pfBlockerNG",
+              "Pacotes instalados: squid, squidGuard, System_Patches, Open-VM-Tools",
+              "Hostname e domínio padronizados (nomenclatura 2com)",
+              "DHCP Server configurado para a LAN",
+              "DNS Forwarder configurado",
+              "FTP Client Proxy configurado",
+              "Vinculação IP/MAC criada para VMs Linux no DHCP",
+              "OpenVPN Remote Access (Client-to-Server) criado",
+              "Perfil OpenVPN exportado para cliente Windows",
+              "Conexão OpenVPN testada e validada",
+              "Regra de firewall: cliente VPN acessa APENAS IP da VM Linux",
+              "OpenVPN SSL/TLS Site-to-Site configurado entre Ambiente A e B",
+              "Comunicação LAN-a-LAN validada via OpenVPN S2S",
+              "OpenVPN S2S desativado",
+              "IPsec Site-to-Site configurado entre Ambiente A e B",
+              "Comunicação LAN-a-LAN validada via IPsec"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+};
+
+const TABS = Object.keys(SCENARIOS);
+let activeTab = TABS[0];
+
+function renderTabs() {
+  document.getElementById('stabs').innerHTML = TABS.map(k =>
+    `<button class="stab ${k === activeTab ? 'active' : ''}" onclick="setTab('${k}')">${SCENARIOS[k].label}</button>`
+  ).join('');
+}
+
+function setTab(tab) {
+  activeTab = tab;
+  document.getElementById('search').value = '';
+  renderTabs();
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.chk-item').length;
+  const done = document.querySelectorAll('.chk-item.checked').length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const fill = document.getElementById('progress-fill');
+  const pctEl = document.getElementById('progress-pct');
+  const label = document.getElementById('progress-label');
+  if (fill) fill.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (label) label.textContent = `${done} de ${total} itens concluídos`;
+}
+
+function fmtCode(str) {
+  return str
+    .replace(/^(#.*)$/gm, '<span class="comment">$1</span>')
+    .replace(/(\/.+?)( |$)/gm, '<span class="path">$1</span>$2');
+}
+
+function renderAll() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const scenario = SCENARIOS[activeTab];
+  let html = '';
+
+  let totalChk = 0;
+  scenario.sections.forEach(sec => {
+    let secHtml = '';
+    sec.steps.forEach((step, si) => {
+      const id = `step_${activeTab}_${sec.label.replace(/\W/g,'')}_${si}`;
+      const matches = !q ||
+        step.title.toLowerCase().includes(q) ||
+        (step.desc || '').toLowerCase().includes(q) ||
+        (step.cmds || '').toLowerCase().includes(q) ||
+        (step.checklist || []).join(' ').toLowerCase().includes(q);
+      if (!matches) return;
+
+      let bodyHtml = '';
+      if (step.desc) bodyHtml += `<div class="step-desc">${step.desc}</div>`;
+      if (step.checklist) {
+        totalChk += step.checklist.length;
+        bodyHtml += `<div class="cmd-label">checklist</div><div class="checklist">`;
+        step.checklist.forEach((item, ci) => {
+          bodyHtml += `<div class="chk-item" onclick="toggleCheck(this)">
+            <div class="chk-box"></div>
+            <span class="chk-text">${item}</span>
+          </div>`;
+        });
+        bodyHtml += `</div>`;
+      }
+      if (step.cmds) {
+        bodyHtml += `<div class="cmd-label">comandos</div>
+        <div class="code-block">${fmtCode(step.cmds)}</div>`;
+      }
+      if (step.alert) {
+        bodyHtml += `<div class="alert-box ${step.alert.type}">${step.alert.text}</div>`;
+      }
+
+      secHtml += `<div class="step-card" id="${id}" onclick="event.target.closest('.step-card') && toggle('${id}')">
+        <div class="step-header">
+          <div class="step-num ${step.numClass}">${step.num}</div>
+          <div class="step-title">${step.title}</div>
+          <span class="step-tag ${step.tagClass}">${step.tag}</span>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="step-body">${bodyHtml}</div>
+      </div>`;
+    });
+
+    if (secHtml) {
+      html += `<div class="section">
+        <div class="section-label">${sec.label}</div>
+        ${secHtml}
+      </div>`;
+    }
+  });
+
+  if (!html) {
+    html = `<div class="empty">Nenhum resultado para "<strong>${q}</strong>"</div>`;
+  }
+
+  if (totalChk > 0 && !q) {
+    html = `<div class="progress-wrap">
+      <span class="progress-label" id="progress-label">0 de ${totalChk} itens concluídos</span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>` + html;
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('scrolltop').classList.toggle('show', window.scrollY > 300);
+});
+
+renderTabs();
+renderAll();
+</script>
+</body>
+</html>
